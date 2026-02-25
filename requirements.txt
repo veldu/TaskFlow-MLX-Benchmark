@@ -1,0 +1,5 @@
+mlx
+mlx-lm
+pandas
+psutil
+pydantic
