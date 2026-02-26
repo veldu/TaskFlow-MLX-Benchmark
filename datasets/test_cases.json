@@ -1,0 +1,26 @@
+[
+  {
+    "id": "TC-01-ESTRUCTURA_BASE",
+    "level": "Bajo",
+    "name": "Kanban Simple sin anidamiento profundo",
+    "system_prompt": "Eres el motor de UI de TaskFlow. Tu objetivo es instanciar widgets válidos. DEBES responder ÚNICAMENTE con un JSON válido. \n\nESTRUCTURA REQUERIDA:\n{\n  \"intent_summary\": \"string\",\n  \"widgets\": [\n    {\n      \"widget_type\": \"kanban\",\n      \"title\": \"string\",\n      \"columns\": [\n        {\n          \"id\": \"string\",\n          \"title\": \"string\",\n          \"tasks\": [\n            {\n              \"id\": \"string\",\n              \"title\": \"string\",\n              \"description\": \"string\",\n              \"priority\": \"low|medium|high\",\n              \"checklist\": []\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "context": "No hay datos previos.",
+    "prompt": "Necesito organizar un pequeño evento de networking para 50 personas el mes que viene. Hazme un tablero básico para empezar."
+  },
+  {
+    "id": "TC-02-ANIDAMIENTO_PROFUNDO",
+    "level": "Medio",
+    "name": "Épicas, Tareas y Checklists",
+    "system_prompt": "Eres el motor de UI de TaskFlow. Tu objetivo es instanciar widgets válidos. DEBES responder ÚNICAMENTE con un JSON válido. \n\nESTRUCTURA REQUERIDA:\n{\n  \"intent_summary\": \"string\",\n  \"widgets\": [\n    {\n      \"widget_type\": \"kanban\",\n      \"title\": \"string\",\n      \"columns\": [\n        {\n          \"id\": \"string\",\n          \"title\": \"string\",\n          \"tasks\": [\n            {\n              \"id\": \"string\",\n              \"title\": \"string\",\n              \"description\": \"string\",\n              \"priority\": \"low|medium|high\",\n              \"checklist\": [\n                { \"task\": \"string\", \"is_completed\": boolean }\n              ]\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}\n\nREGLA: Las tareas deben contener descripciones detalladas y listas de verificación (checklists) relevantes.",
+    "context": "No hay datos previos.",
+    "prompt": "Voy a desarrollar el frontend de una tienda online en React. Créame un Kanban. Quiero una columna para 'Auth', otra para 'Carrito' y otra para 'Catálogo'. Dentro de cada una, pon 1 tarea principal, pero que esa tarea tenga un checklist detallado de al menos 4 subtareas técnicas necesarias."
+  },
+  {
+    "id": "TC-03-RAG_MAPPING",
+    "level": "Alto",
+    "name": "Mapeo de DB caótica a UI estricta",
+    "system_prompt": "Eres el motor de UI de TaskFlow. Mapea la información del contexto hacia el esquema de UI requerido. Ignora lo irrelevante. DEBES responder ÚNICAMENTE con un JSON válido.\n\nESTRUCTURA REQUERIDA:\n{\n  \"intent_summary\": \"string\",\n  \"widgets\": [\n    {\n      \"widget_type\": \"kanban\",\n      \"title\": \"string\",\n      \"columns\": [\n        {\n          \"id\": \"string\",\n          \"title\": \"string\",\n          \"tasks\": [\n            {\n              \"id\": \"string\",\n              \"title\": \"string\",\n              \"description\": \"string\",\n              \"priority\": \"low|medium|high\",\n              \"checklist\": []\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+    "context": "DB_EXPORT_TXT: [Nota rápida: llamar a Juan (urgente)], [Idea: rediseñar el logo (baja prioridad)], [Reunión ventas mañana], [Bug en produccion: el boton de pago no va (alta prioridad)], [Comprar cafe para la ofi]",
+    "prompt": "Revisa mis notas desordenadas y constrúyeme un Kanban de 'Operaciones y Tareas' priorizándolas lógicamente en columnas según su estado ideal (Backlog, Urgente, etc)."
+  }
+]
