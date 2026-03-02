@@ -26,16 +26,16 @@ def main():
     
     if opcion == "1":
         strategy = "baseline"
-        output_csv = f"results/{MODEL_SAFE_NAME}_01_baseline_report.csv"
+        output_csv = f"results/injection/baseline/{MODEL_SAFE_NAME}_01_baseline_report.csv"
     elif opcion == "2":
         strategy = "schema_injection"
-        output_csv = f"results/{MODEL_SAFE_NAME}_02_schema_injection_report.csv"
+        output_csv = f"results/injection/rawjson/{MODEL_SAFE_NAME}_02_schema_injection_report.csv"
     elif opcion == "3":
         strategy = "minified_schema"
-        output_csv = f"results/{MODEL_SAFE_NAME}_03_minified_schema_report.csv"
+        output_csv = f"results/injection/cleanjson/{MODEL_SAFE_NAME}_03_minified_schema_report.csv"
     elif opcion == "4":
         strategy = "typescript_schema"
-        output_csv = f"results/{MODEL_SAFE_NAME}_04_typescript_schema_report.csv"
+        output_csv = f"results/injection/typescript/{MODEL_SAFE_NAME}_04_typescript_schema_report.csv"
     else:
         print("❌ Opción no válida. Saliendo...")
         return

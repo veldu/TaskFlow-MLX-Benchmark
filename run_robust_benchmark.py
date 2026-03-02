@@ -1,10 +1,16 @@
 import os
 import time
 import json
+import sys
+import pandas as pd
 import mlx.core as mx
 from mlx_lm import load, stream_generate, generate
 
 from scripts.benchmark_core import get_typescript_schema, WorkspaceOutput, extract_json, validate_response
+
+# variable CSV de salida reutilizable (similar a otros tests)
+CSV_OUTPUT = getattr(sys.modules[__name__], 'CSV_OUTPUT', None)
+
 
 # ==========================================
 # 0. MENÚS INTERACTIVOS
@@ -245,6 +251,20 @@ def run_e2e_stress_test(models: dict, context_multiplier: int, test_name: str):
     print(f"[{test_name}] Payload Parcial Generado:")
     print(f"{clean_json[:400]}...\n[FIN DEL TEST]\n")
 
+    # devolver métricas para el CSV
+    return {
+        "test_name": test_name,
+        "router_latency_ms": router_time_ms,
+        "context_tokens": input_tokens,
+        "ttft_ms": ttft_ms,
+        "tps": tps,
+        "peak_vram_gb": peak_vram,
+        "validation_success": is_valid,
+        "validation_error": error_msg if not is_valid else "",
+        "router_model": models["router"][0].name if hasattr(models["router"][0], 'name') else '',
+        "generator_model": models["generator"][0].name if hasattr(models["generator"][0], 'name') else ''
+    }
+
 # ==========================================
 # 4. ORQUESTADOR PRINCIPAL
 # ==========================================
@@ -275,8 +295,25 @@ def main():
     print("[SISTEMA] GPU lista.\n")
     print("-" * 60)
     
-    run_e2e_stress_test(models, context_multiplier=2, test_name="ESTRÉS NIVEL 1 (Workspace Ligero)")
-    run_e2e_stress_test(models, context_multiplier=10, test_name="ESTRÉS NIVEL 2 (Workspace Pesado)")
+    results = []
+    res1 = run_e2e_stress_test(models, context_multiplier=2, test_name="ESTRÉS NIVEL 1 (Workspace Ligero)")
+    res1["router_model"] = router_model_path
+    res1["generator_model"] = generator_model_path
+    results.append(res1)
+    res2 = run_e2e_stress_test(models, context_multiplier=10, test_name="ESTRÉS NIVEL 2 (Workspace Pesado)")
+    res2["router_model"] = router_model_path
+    res2["generator_model"] = generator_model_path
+    results.append(res2)
+    
+    # guardar CSV final
+    os.makedirs("results/robust", exist_ok=True)
+    # decidir nombre de archivo
+    safe_name = generator_model_path.split("/")[-1]
+    default_csv = f"results/robust/{safe_name}_robust.csv"
+    output_csv = CSV_OUTPUT or default_csv
+    df = pd.DataFrame(results)
+    df.to_csv(output_csv, index=False)
+    print(f"\n Resultados guardados en: {output_csv}")
 
 if __name__ == "__main__":
     main()

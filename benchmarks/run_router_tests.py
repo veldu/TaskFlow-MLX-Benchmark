@@ -90,14 +90,14 @@ def main():
         })
         
         status = "✅ JSON Válido" if is_valid_json else "❌ JSON Roto"
-        print(f"   ⏱️ Latencia: {latency_ms} ms | 🧠 VRAM: {peak_vram} MB")
-        print(f"   🤖 Decisión: {clean_response} ({status})\n")
+        print(f"   Latencia: {latency_ms} ms | VRAM: {peak_vram} MB")
+        print(f"   Decisión: {clean_response} ({status})\n")
 
     # Guardar resultados
     df = pd.DataFrame(results)
     # Resolver nombre de archivo: usar CSV_OUTPUT si se inyectó,
     # de lo contrario generarlo a partir del modelo cargado.
-    out_file = CSV_OUTPUT if CSV_OUTPUT else f"results/{MODEL_PATH.split('/')[-1]}_router_benchmark.csv"
+    out_file = CSV_OUTPUT if CSV_OUTPUT else f"results/router/{MODEL_PATH.split('/')[-1]}_router_benchmark.csv"
     df.to_csv(out_file, index=False)
     print(f"📊 Resultados guardados en {out_file}")
 
