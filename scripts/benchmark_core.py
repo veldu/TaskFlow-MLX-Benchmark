@@ -4,10 +4,10 @@ import re
 import mlx.core as mx
 from mlx_lm import stream_generate
 from pydantic import BaseModel, Field, ValidationError
-from typing import List, Literal, Optional, Any
+from typing import List, Literal, Optional, Any, Union
 
 # ==========================================
-# 1. SCHEMAS DE PYDANTIC (Generative UI)
+# 1. SCHEMAS DE PYDANTIC
 # ==========================================
 
 class ChecklistItem(BaseModel):
@@ -31,9 +31,15 @@ class KanbanWidget(BaseModel):
     title: str
     columns: List[KanbanColumn]
 
+class NotesWidget(BaseModel):
+    widget_type: Literal["notes"] = "notes"
+    title: str
+    content: str = Field(description="Contenido de texto libre o markdown")
+
 class WorkspaceOutput(BaseModel):
-    intent_summary: str = Field(description="Breve resumen de lo que la IA ha entendido que el usuario necesita")
-    widgets: List[KanbanWidget]
+    intent_summary: str = Field(description="Resumen de la intención")
+    # Ahora la lista acepta o Kanbans o Notas
+    widgets: List[Union[KanbanWidget, NotesWidget]]
 
 # ==========================================
 # 2. FUNCIONES DE OPTIMIZACIÓN DE ESQUEMAS
@@ -80,6 +86,12 @@ def get_typescript_schema() -> str:
             types = [resolve_type(t) for t in prop_info['anyOf'] if t.get('type') != 'null']
             return " | ".join(types) if types else "any"
         
+        if 'const' in prop_info:
+            val = prop_info['const']
+            return f'"{val}"' if isinstance(val, str) else str(val)
+        if 'enum' in prop_info:
+            return " | ".join([f'"{e}"' if isinstance(e, str) else str(e) for e in prop_info['enum']])
+
         t = prop_info.get('type', 'any')
         if t == 'string':
             if 'enum' in prop_info:

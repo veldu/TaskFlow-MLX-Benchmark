@@ -1,0 +1,32 @@
+[
+  {
+    "id": "ROUTER-01-DIRECTO",
+    "name": "Petición Explícita (Baseline)",
+    "prompt": "Necesito un kanban para mis tareas y un calendario para ver las fechas de entrega.",
+    "expected_behavior": "El modelo debe hacer una coincidencia directa 1:1. Salida esperada: [\"kanban\", \"calendar\"]."
+  },
+  {
+    "id": "ROUTER-02-FLUJO_IMPLICITO",
+    "name": "Deducción de Flujo de Trabajo (Software)",
+    "prompt": "Voy a empezar a programar el backend de mi TFG. Necesito llevar un control de los bugs que voy encontrando y un sitio para redactar la documentación de la API.",
+    "expected_behavior": "No nombra widgets explícitamente. Debe deducir que 'control de bugs' = 'kanban' y 'redactar documentación' = 'notes'."
+  },
+  {
+    "id": "ROUTER-03-COMBINACION_ANALITICA",
+    "name": "Razonamiento Académico Complejo",
+    "prompt": "Estoy agobiado. Me quedan dos semanas para los exámenes finales y necesito saber qué nota sacar en el test para aprobar la asignatura porque las prácticas me salieron mal.",
+    "expected_behavior": "Debe deducir la urgencia temporal ('calendar' o 'pomodoro') y la necesidad analítica ('grade_calculator'). Salida ideal: [\"calendar\", \"grade_calculator\"]."
+  },
+  {
+    "id": "ROUTER-04-SOBRECARGA",
+    "name": "Multitasking Intensivo",
+    "prompt": "Hoy quiero estudiar 4 horas a tope sin distracciones, ir apuntando los conceptos clave del tema 3, y además tengo que organizar qué temas voy a estudiar cada día de esta semana.",
+    "expected_behavior": "Debe invocar múltiples herramientas sin alucinar. 'Estudiar 4h a tope' = 'pomodoro', 'apuntando conceptos' = 'notes', 'organizar qué temas cada día' = 'kanban' o 'calendar'."
+  },
+  {
+    "id": "ROUTER-05-FUERA_DE_DOMINIO",
+    "name": "Graceful Degradation (Petición Imposible)",
+    "prompt": "Cómprame un billete de tren de Valencia a Madrid para mañana a las 10:00 y reserva un hotel barato.",
+    "expected_behavior": "TaskFlow no es un agente de viajes ni tiene acceso a internet. Debe rechazar elegantemente la acción devolviendo [] o sugiriendo ['notes'] para que el usuario lo apunte."
+  }
+]

@@ -22,5 +22,13 @@
     "system_prompt": "Eres el motor de UI de TaskFlow. Mapea la información del contexto hacia el esquema de UI requerido. Ignora lo irrelevante. DEBES responder ÚNICAMENTE con un JSON válido.\n\nESTRUCTURA REQUERIDA:\n{\n  \"intent_summary\": \"string\",\n  \"widgets\": [\n    {\n      \"widget_type\": \"kanban\",\n      \"title\": \"string\",\n      \"columns\": [\n        {\n          \"id\": \"string\",\n          \"title\": \"string\",\n          \"tasks\": [\n            {\n              \"id\": \"string\",\n              \"title\": \"string\",\n              \"description\": \"string\",\n              \"priority\": \"low|medium|high\",\n              \"checklist\": []\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
     "context": "DB_EXPORT_TXT: [Nota rápida: llamar a Juan (urgente)], [Idea: rediseñar el logo (baja prioridad)], [Reunión ventas mañana], [Bug en produccion: el boton de pago no va (alta prioridad)], [Comprar cafe para la ofi]",
     "prompt": "Revisa mis notas desordenadas y constrúyeme un Kanban de 'Operaciones y Tareas' priorizándolas lógicamente en columnas según su estado ideal (Backlog, Urgente, etc)."
+  },
+  {
+    "id": "TC-04-NIGHTMARE",
+    "level": "Pesadilla",
+    "name": "Generación Multi-Widget Simultánea",
+    "system_prompt": "Eres el motor de UI de TaskFlow. Tienes a tu disposición la interfaz WorkspaceOutput que permite renderizar MÚLTIPLES widgets a la vez (ej: un Kanban y además unas Notas).",
+    "context": "Notas de voz del cliente: 'Necesito que prepares el lanzamiento de la app para el viernes. Por un lado, hazme un tablero con las tareas típicas de frontend, backend y QA. Por otro lado, créame un documento de notas adjunto donde me dejes por escrito el texto base para la nota de prensa de marketing que enviaremos a los medios.'",
+    "prompt": "Genera la interfaz para cubrir ambas necesidades en un solo WorkspaceOutput."
   }
 ]
