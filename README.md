@@ -1,18 +1,55 @@
-# TaskFlow: MLX Benchmark Laboratory
+# TaskFlow: MLX Benchmark
 
-Este repositorio contiene el entorno de pruebas aislado para el estudio empírico de rendimiento de modelos de lenguaje (LLMs) locales, desarrollado como parte del Trabajo de Fin de Grado en Ingeniería Informática centrado en el proyecto **TaskFlow**.
+<p align="center">
+  <img src="https://img.shields.io/badge/Framework-MLX-blue?style=for-the-badge&logo=apple&logoColor=white" alt="MLX">
+  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Platform-macOS%20(Apple%20Silicon)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Apple Silicon">
+</p>
+
+---
+
+Este repositorio constituye el **entorno de pruebas aislado** para el estudio empírico de rendimiento de modelos de lenguaje (LLMs) locales. Desarrollado como pieza del Trabajo de Fin de Grado en Ingeniería Informática, este laboratorio valida la viabilidad técnica del proyecto **TaskFlow**.
 
 ## ¿Qué es TaskFlow?
-TaskFlow es un concepto de aplicación de escritorio de "Productividad Generativa" de arquitectura híbrida (Electron, React, FastAPI). A diferencia de los asistentes conversacionales estándar (chatbots), TaskFlow actúa como un orquestador estructural: el usuario describe una necesidad organizativa (ej. "Planificar el desarrollo de mi proyecto") y el sistema de IA local analiza la petición para generar y renderizar dinámicamente una interfaz gráfica interactiva (Widgets como tableros Kanban, sistemas de notas o calculadoras académicas) pre-rellenada con datos lógicos. Todo el procesamiento ocurre de manera 100% local, garantizando coste cero de inferencia y privacidad absoluta.
 
-## Objetivo del Estudio
-Validar empíricamente la viabilidad de ejecutar este motor de generación de interfaces en hardware de consumo utilizando el framework **Apple MLX**. El laboratorio evalúa tres pilares críticos para definir la arquitectura final del sistema (Advanced Model Cascading):
+**TaskFlow** es un concepto de aplicación de "Productividad Generativa" que trasciende el modelo de chatbot convencional. Actúa como un **orquestador estructural** con arquitectura híbrida (*Electron, React, FastAPI*).
 
-1. **Latencia:** *Time To First Token* (TTFT) y *Tokens Per Second* (TPS) para garantizar una experiencia de usuario responsiva (*Bias for Action*).
-2. **Eficiencia:** Consumo de Memoria Unificada (VRAM) y carga de computación en GPU.
-3. **Fiabilidad:** Capacidad de seguimiento de instrucciones complejas en contextos restrictivos y generación de esquemas JSON estrictamente válidos para la UI (Pydantic y TypeScript Injection).
+* **Interacción:** El usuario describe una necesidad organizativa (ej. *"Planificar el desarrollo de mi proyecto"*).
+* **Procesamiento:** El sistema analiza la petición y genera dinámicamente una interfaz gráfica interactiva (Widgets: Kanban, Notas, Calculadoras).
+* **Ejecución:** Todo el proceso es **100% local**, garantizando coste cero de inferencia y privacidad absoluta de los datos.
 
-> *Nota: Para una lectura detallada sobre las conclusiones arquitectónicas derivadas de estas pruebas, consulta el archivo `results_and_conclusions.md`.*
+> El núcleo de TaskFlow no es solo responder preguntas, sino **construir herramientas en tiempo real** mediante la inyección de esquemas JSON en la UI.
+
+---
+
+## El Laboratorio de Benchmarking
+
+El objetivo primordial es validar el uso de **Apple MLX** para ejecutar este motor de generación en hardware de consumo. Evaluamos el sistema mediante:
+
+### Pilares de Evaluación de Rendimiento
+
+| Pilar | Métrica Clave | Propósito |
+| :--- | :--- | :--- |
+| **Latencia** | `TTFT` & `TPS` | Garantizar una experiencia con esperas mínimas. |
+| **Eficiencia** | `VRAM` & `GPU Load` | Optimizar el uso de Memoria Unificada en Apple Silicon. |
+| **Fiabilidad** | `JSON Strictness` | Asegurar la validez de esquemas Pydantic y TypeScript. |
+
+---
+
+## Stack Tecnológico
+
+* **Engine de Inferencia:** [Apple MLX](https://github.com/ml-explore/mlx).
+* **Validación:** Pydantic para *Structural Data Extraction*.
+* **Entorno:** macOS chips M.
+
+---
+
+## Resultados y Conclusiones
+
+Para una lectura detallada sobre las decisiones arquitectónicas derivadas de estas pruebas y el análisis de datos comparativo, consulta:
+
+[**Ver resultados_and_conclusions.md**](./results_and_conclusions.md)
+
 
 ## Configuración del Entorno
 El estudio se realiza en un entorno virtual aislado para evitar conflictos de dependencias y garantizar la pureza de las métricas obtenidas.
@@ -65,3 +102,8 @@ Los resultados de latencia, éxito estructural y, sobre todo, viabilidad de ejec
 
 * Si se intenta replicar estos tests en máquinas con **8 GB o 16 GB de memoria**, la carga de modelos de 14B parámetros (que requieren aproximadamente 9.5 GB de VRAM en cuantización a 4-bit, más la *KV Cache* de contextos largos) resultará en cuellos de botella severos, uso excesivo del archivo de paginación (SWAP) en el SSD, o errores directos de *Out of Memory* (OOM). 
 * Para perfilar modelos de gran tamaño en equipos de 16 GB o inferiores, es imperativo cerrar aplicaciones secundarias pesadas (navegadores web, contenedores Docker) para liberar la mayor cantidad de Memoria Unificada posible antes de lanzar los scripts.
+
+---
+<p align="center">
+  Desarrollado como parte del TFG de Ingeniería Informática.
+</p>
