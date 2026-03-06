@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 import pandas as pd
 from mlx_lm import load, generate
@@ -70,6 +71,12 @@ def main():
         print(f"   Resultado: {status} | In_Tokens: {metrics['input_tokens']} | TTFT: {metrics['ttft_ms']}ms | TPS: {metrics['tps']}\n")
 
     df = pd.DataFrame(results)
+
+    # Asegurarse de que el directorio de salida exista (para usuarios que no tienen carpetas gitignored creadas).
+    dirpath = os.path.dirname(output_csv)
+    if dirpath:
+        os.makedirs(dirpath, exist_ok=True)
+
     df.to_csv(output_csv, index=False)
 
     print(f"📊 Benchmark finalizado. Resultados guardados en: {output_csv}")

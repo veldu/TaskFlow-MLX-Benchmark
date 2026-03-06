@@ -1,3 +1,4 @@
+import os
 import time
 import json
 import re
@@ -98,6 +99,12 @@ def main():
     # Resolver nombre de archivo: usar CSV_OUTPUT si se inyectó,
     # de lo contrario generarlo a partir del modelo cargado.
     out_file = CSV_OUTPUT if CSV_OUTPUT else f"results/router/{MODEL_PATH.split('/')[-1]}_router_benchmark.csv"
+
+    # Asegurarse de que el directorio de salida exista (para usuarios que no tienen carpetas gitignored creadas).
+    dirpath = os.path.dirname(out_file)
+    if dirpath:
+        os.makedirs(dirpath, exist_ok=True)
+
     df.to_csv(out_file, index=False)
     print(f"📊 Resultados guardados en {out_file}")
 
