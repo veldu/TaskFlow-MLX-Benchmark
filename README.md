@@ -71,7 +71,6 @@ El laboratorio cuenta con dos orquestadores principales para ejecutar las bater�
 Permite seleccionar dinámicamente el modelo a evaluar y la prueba específica que se desea correr. Evalúa distintos componentes de la arquitectura:
 * **Generación de UI (Prompt Injection):** Valida la capacidad del modelo para generar estructuras de datos exactas comparando técnicas como JSON Schema nativo vs. Interfaces TypeScript.
 * **Enrutamiento Lógico (Router / Intent Classification):** Evalúa la capacidad de modelos ultraligeros (< 4B) para realizar triaje de intenciones y selección de herramientas.
-* **Test de Estrés E2E (Context Bloat):** Simula cargas de base de datos de hasta 17.000 tokens para identificar los límites cognitivos (*Lost in the Middle*) y justificar la necesidad de un pipeline RAG.
 
 ```bash
 python run_benchmark_suite.py
